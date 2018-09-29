@@ -1,0 +1,11 @@
+extends site_base
+
+block content
+  form(name="f", method="POST", action="do_login")
+    h1 Please log in
+
+    label(for="username") Input Username
+    input#username(type="text", class="form-control", placeholder="username", name="username")
+    label(for="password") Input your password
+    input#password(type="password", class="form-control", placeholder="password", name="password")
+    input(type="submit" class="form-control btn-success") Log In

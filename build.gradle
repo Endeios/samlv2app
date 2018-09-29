@@ -1,16 +1,28 @@
 plugins {
-    id 'java'
+  id 'java'
 }
 
 group 'io.endeios'
 version '1.0-SNAPSHOT'
 
+ext {
+  springBootVersion = '2.0.5.RELEASE'
+  jadeBootVersion = "2.0.4.RELEASE"
+  sprintgSecurityTest = '5.1.0.RELEASE'
+  testNgVersion = '6.10'
+}
 sourceCompatibility = 1.8
 
 repositories {
-    mavenCentral()
+  mavenCentral()
+  jcenter()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+  compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
+  compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+  compile "com.domingosuarez.boot:jade4j-spring-boot-starter:${jadeBootVersion}"
+  testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+  testCompile("org.springframework.security:spring-security-test:${sprintgSecurityTest}")
+  testCompile "org.testng:testng:${testNgVersion}"
 }
