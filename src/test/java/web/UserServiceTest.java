@@ -1,21 +1,29 @@
 package web;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 
-import web.domain.User;
-
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import static web.UserService.asAuthorities;
 
 public class UserServiceTest  extends AbstractTestNGSpringContextTests {
     @Test
     public void givenUserService_whenAskingForASpecificUser_thenTheRightUserIsRetrieved() {
         UserService service = new UserService();
-        User user = service.getUserByName("bruno");
-        assertEquals(user.getPassword(),"bruno");
-        final String[] expected = {"USER","BRUNO"};
-        assertEquals(expected.length,user.getRoles().length);
-        assertEquals(expected[0],user.getRoles()[0]);
-        assertEquals(expected[1],user.getRoles()[1]);
+        UserDetails user = service.loadUserByUsername("bruno");
+        assertTrue(new BCryptPasswordEncoder().matches("bruno",user.getPassword()));
+        List<SimpleGrantedAuthority> expected = asAuthorities(new String[]{"USER", "BRUNO"});
+        List<? extends GrantedAuthority> authorities = new ArrayList<>(user.getAuthorities());
+        assertEquals(expected.size(), authorities.size());
+        authorities.removeAll(expected);
+        assertTrue(authorities.size()==0);
     }
 }

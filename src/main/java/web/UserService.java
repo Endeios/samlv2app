@@ -43,8 +43,13 @@ public class UserService implements UserDetailsService {
     private static User makeUser(String[] user) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+        final String[] arrayOfAuthorities = copyOfRange(user, 2, user.length);
         final List<SimpleGrantedAuthority> authorities =
-                stream(copyOfRange(user, 2, user.length)).map(SimpleGrantedAuthority::new).collect(toList());
+                asAuthorities(arrayOfAuthorities);
         return new User(user[0], encoder.encode(user[1]), true, true, true, true, authorities);
+    }
+
+    public static List<SimpleGrantedAuthority> asAuthorities(String[] arrayOfAuthorities) {
+        return stream(arrayOfAuthorities).map(SimpleGrantedAuthority::new).collect(toList());
     }
 }
