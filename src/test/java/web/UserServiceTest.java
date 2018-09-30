@@ -14,6 +14,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static web.UserService.asAuthorities;
 
+@Test
 public class UserServiceTest  extends AbstractTestNGSpringContextTests {
     @Test
     public void givenUserService_whenAskingForASpecificUser_thenTheRightUserIsRetrieved() {

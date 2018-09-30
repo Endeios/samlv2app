@@ -18,6 +18,10 @@ repositories {
   jcenter()
 }
 
+test {
+  useTestNG()
+}
+
 dependencies {
   compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
   compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")

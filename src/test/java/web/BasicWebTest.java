@@ -26,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @SpringBootTest
 @ComponentScan(basePackageClasses = App.class)
+@Test
 public class BasicWebTest extends AbstractTestNGSpringContextTests {
 
     private static Logger logger = LoggerFactory.getLogger(BasicWebTest.class);
