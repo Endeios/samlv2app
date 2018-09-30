@@ -20,6 +20,10 @@ public class UserService implements UserDetailsService {
 
     private static final HashMap<String, User> myUsers = makeUsers();
 
+    public static List<SimpleGrantedAuthority> asAuthorities(String[] arrayOfAuthorities) {
+        return stream(arrayOfAuthorities).map(SimpleGrantedAuthority::new).collect(toList());
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return myUsers.get(username);
@@ -47,9 +51,5 @@ public class UserService implements UserDetailsService {
         final List<SimpleGrantedAuthority> authorities =
                 asAuthorities(arrayOfAuthorities);
         return new User(user[0], encoder.encode(user[1]), true, true, true, true, authorities);
-    }
-
-    public static List<SimpleGrantedAuthority> asAuthorities(String[] arrayOfAuthorities) {
-        return stream(arrayOfAuthorities).map(SimpleGrantedAuthority::new).collect(toList());
     }
 }
