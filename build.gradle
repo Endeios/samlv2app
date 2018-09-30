@@ -31,3 +31,5 @@ dependencies {
   testCompile("org.springframework.security:spring-security-test:${sprintgSecurityTest}")
   testCompile "org.testng:testng:${testNgVersion}"
 }
+
+project.version = "1.0"
