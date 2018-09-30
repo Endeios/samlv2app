@@ -70,7 +70,18 @@ public class BasicWebTest extends AbstractTestNGSpringContextTests {
                 .andExpect(model().attributeExists("title"))
         ;
     }
-
+@Test
+    public void testGetPublicPageWithUser() throws Exception {
+        String url = "/";
+        mockMvc.perform(
+                    get(url)
+                    .with(user("bruno").password("pass").roles("USER","BRUNO"))
+                )
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(model().attributeExists("items"))
+                .andExpect(model().attributeExists("title"))
+        ;
+    }
     @BeforeClass
     private void setup() {
         mockMvc = MockMvcBuilders

@@ -21,9 +21,13 @@ and report what is done and why.
 
 ### 1. The starting step
 
-We start from a pretty spring boot application with spring security, without database.
+We start from a pretty basic spring boot application with spring security, without database.
+It has a login screen, some users and roles (not used), a public page (the index) 
+and a secret page ("/secret"). There is no static resources. I use CDN, and i don't
+need to talk about how to serve static resources with spring security.
 
-
+There are also a couple of tests that ensure that login screen behaves as expected, 
+the anonymous resource is available, the secret one needs login.
 
 
 
