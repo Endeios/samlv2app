@@ -42,6 +42,102 @@ with spring: you can find it [here](https://projects.spring.io/spring-security-s
 and is by [Vladimír Schäfer](mailto:vladimir.schafer@gmail.com) (may he be blessed
 for his effort). 
 
+#### 2.2 Adding the local metadata
+
+I am not going to explain SAMLv2 and te glossary here: 
+there are a lot of nice resources online for that! But I can suggest some!
+
+-[Brief introduction to samlv2](https://auth0.com/blog/how-saml-authentication-works/) (this should be your starting point)
+-[Another introduction with different words](https://developers.onelogin.com/saml)
+-[Wiki article on samlv2](https://en.wikipedia.org/wiki/SAML_2.0) (I know, usually these things suck on wikipedia, but this one is worth, it I promise)
+
+
+As first step, I would like to suggest to set up your local metadata 
+(the metadata of your service provider). To do so the **first step is
+to create a _java key store_**, a place where you can securely store cryptographic
+keys (and certificates!) for your application. I like to use a tool called [Portecle](http://portecle.sourceforge.net/)
+but of course you can use the keytool or any other tool to manipulate jks stores.
+
+Said keystore will have a RSA 2048 Key aliased and called (as in CNAME) "test", with empty or a password of your choice,
+as show in the following
+```java
+    @Bean
+    protected KeyManager keyManager() {
+        final HashMap<String, String> passwords = new HashMap<>();
+        passwords.put("test", "");
+        return new JKSKeyManager(new ClassPathResource("truststore.jks"), null, passwords, "test");
+    }
+
+```
+
+
+After this is the turn of the actual filter that will show the metadata display filter
+```java
+    @Bean
+    protected Filter metadataDisplayFilter() throws MetadataProviderException {
+        MetadataDisplayFilter metadataDisplayFilter = new MetadataDisplayFilter();
+        metadataDisplayFilter.setContextProvider(contextProvider());
+        metadataDisplayFilter.setManager(manager());
+        return metadataDisplayFilter;
+    }
+```
+This bean needs a context provider (which knows how to populate the data about the local SP) and a metadata manager. The metadata manager,
+as the name suggests, is your one stopper for all your metadata needs: it contains the configurations of the saml authentications and gives
+such information or request to the other beans. it is configures as follows
+
+```java
+    @Bean
+    protected MetadataManager manager() throws MetadataProviderException {
+        List<MetadataProvider> providers = new ArrayList<>();
+        // this list has all the metadata providers 
+        providers.add(spMetadata());
+        MetadataManager manager = new MetadataManager(providers);
+        // so we tell the entity ID that is "US"
+        manager.setHostedSPName(entityId);
+        return manager;
+    }
+```
+
+The metadata manager, needs of course some provider (i.e the entities and their configuration representation as saml understand them).
+For this first iteration we are going to add just the SP metadata, by the means of a in memory metadata provider, that takes his data from a 
+generated entity (from the metadata generator), which itself respect the configuration of an extended metadata object, as shown below.
+
+```java
+    private MetadataProvider spMetadata() {
+        EntityDescriptor descriptor = metadataGenerator().generateMetadata();
+        return new MetadataMemoryProvider(descriptor);
+    }
+
+    private MetadataGenerator metadataGenerator() {
+        final MetadataGenerator metadataGenerator = new MetadataGenerator();
+        metadataGenerator.setEntityId(entityId);
+        metadataGenerator.setEntityBaseURL(entityBaseUrl);
+        metadataGenerator.setKeyManager(keyManager());
+        metadataGenerator.setExtendedMetadata(extendedMetadata());
+        return metadataGenerator;
+    }
+
+    private ExtendedMetadata extendedMetadata() {
+        final ExtendedMetadata extendedMetadata = new ExtendedMetadata();
+        extendedMetadata.setLocal(true);
+        extendedMetadata.setIdpDiscoveryEnabled(false);
+        return extendedMetadata;
+    }
+
+```
+
+But if you try to run this configuration, it will load and then crash, because it will complain of some null pointer exception. The fact is that you also 
+need to initialize the XML generators , using the following 
+
+```java
+    @Bean
+    public static SAMLBootstrap samlBootstrap() {
+        return new SAMLBootstrap();
+    }
+
+```
+
+Now you should be able to see the metadata on [http://localhost:8080/saml/metadata]!
 
 ## Links and notable resources
 
