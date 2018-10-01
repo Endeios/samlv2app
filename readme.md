@@ -137,7 +137,7 @@ need to initialize the XML generators , using the following
 
 ```
 
-Now you should be able to see the metadata on [http://localhost:8080/saml/metadata]!
+Now you should be able to see the metadata on [http://localhost:8080/saml/metadata](http://localhost:8080/saml/metadata)!
 
 ## Links and notable resources
 
