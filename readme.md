@@ -42,7 +42,7 @@ with spring: you can find it [here](https://projects.spring.io/spring-security-s
 and is by [Vladimír Schäfer](mailto:vladimir.schafer@gmail.com) (may he be blessed
 for his effort). 
 
-#### 2.2 Adding the local metadata
+#### 2.2 Adding the local metadata v1.0.2
 
 I am not going to explain SAMLv2 and te glossary here: 
 there are a lot of nice resources online for that! But I can suggest some!
