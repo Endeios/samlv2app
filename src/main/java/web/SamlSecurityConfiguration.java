@@ -26,7 +26,7 @@ import org.springframework.security.saml.metadata.MetadataDisplayFilter;
 import org.springframework.security.saml.metadata.MetadataGenerator;
 import org.springframework.security.saml.metadata.MetadataManager;
 import org.springframework.security.saml.metadata.MetadataMemoryProvider;
-import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 
 @EnableWebSecurity
 @Order(2)
@@ -66,7 +66,8 @@ public class SamlSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .addFilterAfter(metadataDisplayFilter(), SecurityContextPersistenceFilter.class)
+                //.addFilterBefore(metadataDisplayFilter(), SecurityContextPersistenceFilter.class)
+                .addFilterAfter(metadataDisplayFilter(), AnonymousAuthenticationFilter.class)
         ;
     }
 

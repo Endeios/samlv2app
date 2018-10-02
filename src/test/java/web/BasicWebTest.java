@@ -38,7 +38,6 @@ public class BasicWebTest extends AbstractTestNGSpringContextTests {
     private WebApplicationContext context;
     private MockMvc mockMvc;
 
-
     @Test
     public void testGetIndexPage() throws Exception {
         String url = "/";
