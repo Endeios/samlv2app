@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.Filter;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.opensaml.saml2.metadata.EntityDescriptor;
 import org.opensaml.saml2.metadata.provider.MetadataProvider;
 import org.opensaml.saml2.metadata.provider.MetadataProviderException;
@@ -24,6 +24,7 @@ import org.springframework.security.saml.key.KeyManager;
 import org.springframework.security.saml.metadata.ExtendedMetadata;
 import org.springframework.security.saml.metadata.MetadataDisplayFilter;
 import org.springframework.security.saml.metadata.MetadataGenerator;
+import org.springframework.security.saml.metadata.MetadataGeneratorFilter;
 import org.springframework.security.saml.metadata.MetadataManager;
 import org.springframework.security.saml.metadata.MetadataMemoryProvider;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
@@ -35,11 +36,19 @@ public class SamlSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private String entityId;
     @Value("${app.entityBaseUrl:http://localhost:8080}")
     private String entityBaseUrl;
-
+    private Log log = LogFactory.getLog(SecurityConfiguration.class);
 
     @Bean
     public static SAMLBootstrap samlBootstrap() {
         return new SAMLBootstrap();
+    }
+
+    @Bean
+    public MetadataGeneratorFilter metadataGeneratorFilter() throws MetadataProviderException {
+        final MetadataGeneratorFilter metadataGeneratorFilter = new MetadataGeneratorFilter(metadataGenerator());
+        metadataGeneratorFilter.setManager(manager());
+        metadataGeneratorFilter.setDisplayFilter(metadataDisplayFilter());
+        return metadataGeneratorFilter;
     }
 
     private MetadataProvider spMetadata() {
@@ -66,17 +75,18 @@ public class SamlSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                //.addFilterBefore(metadataDisplayFilter(), SecurityContextPersistenceFilter.class)
                 .addFilterAfter(metadataDisplayFilter(), AnonymousAuthenticationFilter.class)
+                //.addFilterBefore(metadataDisplayFilter(), CsrfFilter.class)
+                .addFilterBefore(metadataGeneratorFilter(), MetadataDisplayFilter.class)
         ;
     }
 
-
     @Bean
-    protected Filter metadataDisplayFilter() throws MetadataProviderException {
+    protected MetadataDisplayFilter metadataDisplayFilter() throws MetadataProviderException {
         MetadataDisplayFilter metadataDisplayFilter = new MetadataDisplayFilter();
         metadataDisplayFilter.setContextProvider(contextProvider());
         metadataDisplayFilter.setManager(manager());
+        metadataDisplayFilter.setFilterProcessesUrl("/saml/metadata");
         return metadataDisplayFilter;
     }
 

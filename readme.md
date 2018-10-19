@@ -139,6 +139,11 @@ need to initialize the XML generators , using the following
 
 Now you should be able to see the metadata on [http://localhost:8080/saml/metadata](http://localhost:8080/saml/metadata)!
 
+# 2.3 Interfacing to remote metadata 
+
+
+
+
 ## Links and notable resources
 
 - [Start up a Jade app with spring](http://josdem.io/techtalk/spring/spring_boot_jade/) (I prefer it to other techs for theses small projects)
