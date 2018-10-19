@@ -141,8 +141,76 @@ Now you should be able to see the metadata on [http://localhost:8080/saml/metada
 
 # 2.3 Interfacing to remote metadata 
 
-Is now time to set the config to 
+Is now time to set the config for the external service. The first step is to set the entry point: in the configure method of the saml configuration,
+we add an entry point
 
+```java
+http
+...
+...
+                .httpBasic().authenticationEntryPoint(samlEntryPoint())
+```
+
+and of course the entry point itself
+
+```java
+    @Bean
+    public SAMLEntryPoint samlEntryPoint() throws MetadataProviderException {
+        final SAMLEntryPoint samlEntryPoint = new SAMLEntryPoint();
+        samlEntryPoint.setMetadata(manager());
+        samlEntryPoint.setContextProvider(contextProvider());
+        samlEntryPoint.setWebSSOprofile(webSSOProfile());
+        samlEntryPoint.setDefaultProfileOptions(defaultOptions());
+        samlEntryPoint.setSamlLogger(samlLogger());
+        return samlEntryPoint;
+    }
+```
+
+We set the context provider (analyzes http requests and responses to get saml info), the web sso profile 
+( with the list of supported transport methods; in the example there is the configuration that enables all that can be enabled)
+some default options (basically setting the redirect binding) and the saml logger (that optionally dumps the saml payload to console,
+so we can inspect it)
+
+but this is not enough, we still need to provide the metadata of the identity provider. We will use the following
+
+
+```java
+
+    @Bean("idp-default")
+    public ExtendedMetadataDelegate samlExtendedMetadataProvider() {
+        ExtendedMetadataDelegate extendedMetadataDelegate = new ExtendedMetadataDelegate(idpMetadataProvider(), extendedMetadata());
+        extendedMetadataDelegate.setMetadataTrustCheck(true);
+        extendedMetadataDelegate.setMetadataRequireSignature(false);
+        return extendedMetadataDelegate;
+    }
+```
+
+in which we manipulate some settings and set the idp metadata provider, and here we actully put the xml link 
+
+```java
+  private MetadataProvider idpMetadataProvider() {
+        Timer timer = new Timer();
+        try {
+            final HTTPMetadataProvider httpMetadataProvider = new HTTPMetadataProvider(timer, httpClient(), metaIdpXml);
+            httpMetadataProvider.setParserPool(parserPool());
+            return httpMetadataProvider;
+        } catch (MetadataProviderException e) {
+            log.error("Error initializing remote Idp SAMLv2 metadata: " + e.getCause().getMessage());
+        }
+        return new MetadataMemoryProvider(null);
+    }
+```
+
+and the extended metadata
+
+```java
+    private ExtendedMetadata extendedMetadata() {
+        final ExtendedMetadata extendedMetadata = new ExtendedMetadata();
+        extendedMetadata.setLocal(true);
+        extendedMetadata.setIdpDiscoveryEnabled(false);
+        return extendedMetadata;
+    }
+```
 
 
 ## Links and notable resources
