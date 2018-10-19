@@ -141,6 +141,7 @@ Now you should be able to see the metadata on [http://localhost:8080/saml/metada
 
 # 2.3 Interfacing to remote metadata 
 
+Is now time to set the config to 
 
 
 
