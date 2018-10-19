@@ -86,7 +86,6 @@ public class SamlSecurityConfiguration extends WebSecurityConfigurerAdapter {
         MetadataDisplayFilter metadataDisplayFilter = new MetadataDisplayFilter();
         metadataDisplayFilter.setContextProvider(contextProvider());
         metadataDisplayFilter.setManager(manager());
-        metadataDisplayFilter.setFilterProcessesUrl("/saml/metadata");
         return metadataDisplayFilter;
     }
 
