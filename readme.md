@@ -1,4 +1,4 @@
-#SAMLv2 Authenticated application (skippable)
+# SAMLv2 Authenticated application (skippable)
 
 I integrated the SAMLv2 spring security plugin in our application some time ago, 
 and I must say that was a bit challenging at the beginning: it took me a while 
@@ -139,7 +139,7 @@ need to initialize the XML generators , using the following
 
 Now you should be able to see the metadata on [http://localhost:8080/saml/metadata](http://localhost:8080/saml/metadata)!
 
-# 2.3 Interfacing to remote metadata 
+# 2.3 Interfacing to remote metadata v1.0.3
 
 Is now time to set the config for the external service. The first step is to set the entry point: in the configure method of the saml configuration,
 we add an entry point
