@@ -201,7 +201,7 @@ in which we manipulate some settings and set the idp metadata provider, and here
     }
 ```
 
-and the extended metadata
+and the extended metadata (which is how you specify some secondary options)
 
 ```java
     private ExtendedMetadata extendedMetadata() {
@@ -212,6 +212,13 @@ and the extended metadata
     }
 ```
 
+
+From here, just start your application and log in with a user on the SSO: a session will be created for it, using the data from the idp provider instead
+that the data from the local application.
+
+## Special thanks 
+
+To [YSoft](http://www.ysoft.com), for being a company where one can work productively, and to **Scan Team** For being the best team i have ever been in!
 
 ## Links and notable resources
 
