@@ -1,4 +1,4 @@
-#SAMLv2 Authenticated application
+# SAMLv2 Authenticated application
 
 I integrated the SAMLv2 spring security plugin in our application some time ago, 
 and I must say that was a bit challenging at the beginning: it took me a while 
@@ -29,7 +29,40 @@ need to talk about how to serve static resources with spring security.
 There are also a couple of tests that ensure that login screen behaves as expected, 
 the anonymous resource is available, the secret one needs login.
 
+### Importing the library
 
+To import the library, at the time of the writng, you also need to import from an additional repo, the
+
+```groovy
+repositories {
+....
+  maven {
+    url "http://repo.spring.io/plugins-release/"
+  }
+  ...
+}
+```
+
+And of course add the library itself
+
+```groovy
+ext {
+  ...
+  samlSpringSecurityVersion   = '2.0.0.M17'
+  ...
+}
+...
+
+dependencies {
+... 
+  compile ("org.springframework.security.extensions:spring-security-saml2-core:${samlSpringSecurityVersion}")
+...
+
+}
+
+
+
+```
 
 ## Links and notable resources
 

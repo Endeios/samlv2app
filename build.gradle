@@ -11,12 +11,16 @@ ext {
   jadeBootVersion = "2.0.4.RELEASE"
   sprintgSecurityTest = '5.1.0.RELEASE'
   testNgVersion = '6.10'
+  samlSpringSecurityVersion   = '2.0.0.M17'
 }
 sourceCompatibility = 1.8
 
 repositories {
   mavenCentral()
   jcenter()
+  maven {
+    url "http://repo.spring.io/plugins-release/"
+  }
 }
 
 test {
@@ -24,12 +28,13 @@ test {
 }
 
 dependencies {
-  compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
-  compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
-  compile "com.domingosuarez.boot:jade4j-spring-boot-starter:${jadeBootVersion}"
-  testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
-  testCompile("org.springframework.security:spring-security-test:${sprintgSecurityTest}")
-  testCompile "org.testng:testng:${testNgVersion}"
+  compile ("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
+  compile ("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+  compile ("com.domingosuarez.boot:jade4j-spring-boot-starter:${jadeBootVersion}")
+  compile ("org.springframework.security.extensions:spring-security-saml2-core:${samlSpringSecurityVersion}")
+  testCompile ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+  testCompile ("org.springframework.security:spring-security-test:${sprintgSecurityTest}")
+  testCompile ("org.testng:testng:${testNgVersion}")
 }
 
-project.version = "1.0"
+project.version = "2.0"
