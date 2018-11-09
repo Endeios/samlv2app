@@ -18,13 +18,26 @@ html
   head
     title SAMLv2 Authenticated Application - #{title}
     block scripts
-      link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous")
-      link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous")
+      script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous")
+      link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous")
+      link(rel="stylesheet" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/jumbotron.css")
       script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous")
   body
+    header
+      nav(class="navbar navbar-expand-md navbar-dark fixed-top bg-dark")
+        a(href="/", class="navbar-brand") Home
+        div(class="collapse navbar-collapse")
+          ul(class="navbar-nav mr-auto")
+            li(class="nav-item")
+              a(href="/logout", class="nav-link") Logout
+            li(class="nav-item")
+              a(href="/saml/sp/metadata", class="nav-link") Saml Metadata Link
+            li(class="nav-item")
+              a(href="/secret", class="nav-link") Secret Link
     main(role="main", class="container")
       block content
     footer(class="footer")
       block foot
         .container
-          span(class="text-muted") Released under GPL
+          p(class="text-muted")
+            span(class="text-muted") Released under GPL

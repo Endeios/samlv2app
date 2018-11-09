@@ -14,8 +14,4 @@ public class SamlWebSecurityConfiguration extends SamlServiceProviderSecurityCon
     public SamlWebSecurityConfiguration(SamlServiceProviderServerBeanConfiguration configuration) {
         super(configuration);
     }
-/*
-    public SamlWebSecurityConfiguration(String prefix, SamlServiceProviderServerBeanConfiguration configuration) {
-        super(prefix, configuration);
-    }*/
 }
