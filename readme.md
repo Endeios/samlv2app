@@ -19,7 +19,7 @@ We devs learn a lot from others' code, and with git we have the opportunity to s
 different versions in a common format. I will make a tag for every interesting step
 and report what is done and why.
 
-### 1. The starting step
+### 1. The starting step (v1.0.0)
 
 We start from a pretty basic spring boot application with spring security, without database.
 It has a login screen, some users and roles (not used), a public page (the index) 
@@ -64,7 +64,7 @@ dependencies {
 Many Thanks to [Filip Hanik](https://github.com/fhanik) (something in your name screams Czechia, even if you live in Vancouver...) for 
 his work and to **pivo**tal for spring (Vidim co tam chces Filipe). 
 
-### Configuring the integration (Core) (c2.0.2)
+### Configuring the integration (Core) (v2.0.2)
 
 The first thing we want to do is to set up a SAML Service Provider configuration, extending 
 `org.springframework.security.saml.provider.service.config.SamlServiceProviderServerBeanConfiguration`
@@ -196,6 +196,11 @@ public class SamlWebSecurityConfiguration extends SamlServiceProviderSecurityCon
 ```
 As a side note, @Order(1) menas that this settings will take precedence on @Order(2). Yes, when there is more than 1 security
 configuration you **NEED** to specify an order.
+
+
+## Special thanks 
+
+To [YSoft](http://www.ysoft.com), for being a company where one can work productively, and to **Scan Team** For being the best team i have ever been in!
 
 ## Links and notable resources
 
