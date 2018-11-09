@@ -29,7 +29,7 @@ need to talk about how to serve static resources with spring security.
 There are also a couple of tests that ensure that login screen behaves as expected, 
 the anonymous resource is available, the secret one needs login.
 
-### Importing the library
+### Importing the library (v2.0.1)
 
 To import the library, at the time of the writing, you also need to import from an additional repo, the
 
@@ -64,7 +64,7 @@ dependencies {
 Many Thanks to [Filip Hanik](https://github.com/fhanik) (something in your name screams Czechia, even if you live in Vancouver...) for 
 his work and to **pivo**tal for spring (Vidim co tam chces Filipe). 
 
-### Configuring the integration (Core)
+### Configuring the integration (Core) (c2.0.2)
 
 The first thing we want to do is to set up a SAML Service Provider configuration, extending 
 `org.springframework.security.saml.provider.service.config.SamlServiceProviderServerBeanConfiguration`
