@@ -28,7 +28,7 @@ public class SamlSecurityConfiguration extends SamlServiceProviderServerBeanConf
     private String entityId;
     @Value("${app.entityBaseUrl:http://localhost:8080}")
     private String basePath;
-    @Value("${app.alas:samlv2app}")
+    @Value("${app.alias:samlv2app}")
     private String alias;
 
 
